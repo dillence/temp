@@ -1,0 +1,18 @@
+# temp
+temp search code
+
+`UserAction_Recognizer`
+
+| eval UserActuallyAction=case(
+ActionCount=3 AND Accesses="DELETE" AND Accesses="WriteAttributes" AND Accesses="WriteData (or AddFile)" AND FileType="jpg", "Modify",
+ActionCount=3 AND Accesses="WRITE_DAC" AND Accesses="WriteAttributes" AND Accesses="WriteData (or AddFile)" AND FileType="png" ,"Modify",
+ActionCount=2 AND Accesses="WriteAttributes" AND Accesses="WriteData (or AddFile)" AND (FileType="txt" OR FileType="dat" OR FileType="pdf" OR FileType="log"), "Modify",
+ActionCount=1 AND (Accesses="WriteAttributes" OR Accesses="WriteData (or AddFile)") AND (FileType="log" OR FileType="mp4"), "Modify",
+ActionCount=3 AND Accesses="WRITE_DAC" AND Accesses="WriteAttributes" AND Accesses="WriteData (or AddFile)" AND (EventCode="4663" OR EventCode="4670"),"Copy_Paste",
+ActionCount=2 AND Accesses="DELETE" AND Accesses="WriteData (or AddFile)" AND EventCode="4663" AND ActionStatus_1="Y", "Rename",
+ActionCount=2 AND Accesses="DELETE" AND Accesses="AppendData (or AddSubdirectory or CreatePipeInstance)", "Cut_Paste",
+ActionCount=2 AND Accesses="DELETE" AND Accesses="WriteData (or AddFile)" AND EventCode="4663", "Cut_Paste",
+ActionCount=1 AND Accesses="DELETE" AND (EventCode="4659" OR EventCode="4663"), "Delete",
+ActionCount=3 AND Accesses="DELETE" AND Accesses="WRITE_DAC" AND Accesses="WriteData (or AddFile)", "Modify",
+1=1,"{ CAN NOT Identify }"
+)
